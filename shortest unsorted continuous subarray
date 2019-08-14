@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        auto temp = nums;
+        std::sort(nums.begin(), nums.end());
+        int max_index = 0;
+        for(auto index = nums.size(); index > 0; index--){
+            if(temp.at(index - 1) != nums.at(index - 1)){
+                max_index = index - 1;
+                break;
+            }
+        }
+        int min_index = 0;
+        for(auto index2 = nums.size(); index2 > 0; index2--){
+            if(temp.at(-index2 + nums.size()) != nums.at(-index2 + nums.size())){
+                min_index = -index2 + nums.size();
+                break;
+            }
+        }
+        return max_index != min_index ? max_index - min_index + 1 : max_index - min_index;
+    }
+};
