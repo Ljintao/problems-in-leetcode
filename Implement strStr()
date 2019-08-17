@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        if(haystack.size() < needle.size()){
+            return -1;
+        }
+        auto length = needle.size();
+        if(length == 0){
+            return 0;
+        }
+        for(auto index = 0; index <= haystack.size() - length; index++){
+            if(haystack.substr(index, length) == needle){
+                return index;
+            }
+        }
+        return -1;
+    }
+};
