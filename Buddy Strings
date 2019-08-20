@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool buddyStrings(string A, string B) {
+        if(A.size() != B.size())
+            return false;
+        int diff = 0;
+        vector<int> diff_index;
+        for(int i = 0; i < A.size(); i++){
+            if(A[i] != B[i]){
+                diff++;
+                diff_index.push_back(i);
+            }
+        }
+        if(diff == 2){
+            if(A[diff_index.at(0)] == B[diff_index.at(1)] && A[diff_index.at(1)] == B[diff_index.at(0)])
+                return true;
+        }
+        if(diff == 0){
+            for(auto c: A){
+                if(B.find(c) != B.rfind(c))
+                    return true;
+            }
+        }
+        return false;
+    }
+};
