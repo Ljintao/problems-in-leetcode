@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        set<char> ch;
+        for(auto c : s){
+            ch.insert(c);
+        }
+        int result = s.size();
+        for(auto i : ch){
+            if(s.find(i) == s.rfind(i)){
+                if(s.find(i) < result){
+                    result = s.find(i);
+                }
+            }
+        }
+        if(result != s.size())
+            return result;
+        else
+            return -1;
+    }
+};
