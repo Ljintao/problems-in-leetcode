@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if(nums.size() == 0)
+            return 0;
+        if(nums.size() == 1)
+            return nums[0];
+        if(nums.size() == 2)
+            return max(nums[0], nums[1]);
+        int not_rob_last = max(nums[0], nums[1]);
+        int rob_last = nums[0], result = 0;
+        for(int i = 2; i < nums.size(); ++i){
+            result = max(not_rob_last, rob_last + nums[i]);
+            rob_last = not_rob_last;
+            not_rob_last = result;
+        }
+        return result;
+    }
+};
