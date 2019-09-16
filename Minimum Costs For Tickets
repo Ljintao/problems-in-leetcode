@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+        vector<int> tickets(days.back() + 1);
+        tickets[0] = 0;
+        for(int i = 1; i <= days.back(); ++i){
+            if(find(begin(days), end(days), i) == end(days)){
+                tickets[i] = tickets[i - 1];
+                continue;
+            }
+            tickets[i] = tickets[i - 1] + costs[0];
+            if(i - 7 >= 0){
+                if(tickets[i - 7] + costs[1] < tickets[i])
+                    tickets[i] = tickets[i - 7] + costs[1];
+            }
+            else{
+                if(tickets[0] + costs[1] < tickets[i])
+                    tickets[i] = tickets[0] + costs[1];
+            }
+            if(i - 30 >= 0){
+                if(tickets[i - 30] + costs[2] < tickets[i])
+                    tickets[i] = tickets[i - 30] + costs[2];
+            }
+            else{
+                if(tickets[0] + costs[2] < tickets[i])
+                    tickets[i] = tickets[0] + costs[2];
+            }
+        }
+        return tickets.back();
+    }
+};
