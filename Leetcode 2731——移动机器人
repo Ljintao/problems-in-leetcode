@@ -1,0 +1,92 @@
+这道题考点有两个
+1、考虑到机器人可以穿透
+2、排序求距离和，降低时间复杂度
+
+class Solution {
+public:
+    int sumDistance(vector<int>& nums, string s, int d) {
+        int n = nums.size();
+        for(int i = 0; i < n; i++)
+        {
+            if(s[i] == 'L')
+                nums[i] = nums[i] - d;
+            else
+                nums[i] = nums[i] + d;
+        }
+
+        sort(nums.begin(), nums.end());
+
+        unsigned long long result = 0, temp = 0;
+
+        for(int i = 0; i < n; i++)
+        {
+            result = result + (unsigned long long)i * (long long)nums[i] - temp;
+            temp += nums[i];
+        }
+
+        return result % (long long)(1e9 + 7);
+
+        //sort(nums.begin(), nums.end());
+
+        // int n = nums.size();
+
+        // unordered_map<int, char> m;
+        // for(int i = 0; i < n; i++)
+        // {
+        //     m[nums[i]] = s[i];
+        // }
+
+        // sort(nums.begin(), nums.end());
+        // s = "";
+
+        // for(int i = 0; i < n; i++)
+        // {
+        //     s += m[nums[i]];
+        // }
+
+        // while(d > 0)
+        // {
+        //     for(int i = 0; i < n; i++)
+        //     {
+        //         if(s[i] == 'L')
+        //         {
+        //             nums[i] -= 1;
+        //         }
+        //         else
+        //             nums[i] += 1;
+
+        //         if(i != 0)
+        //         {
+        //             int j = i;
+
+        //             while(j >= 1 && nums[j] <= nums[j - 1])
+        //             {
+        //                 if(nums[j] < nums[j - 1])
+        //                 {
+        //                     nums[j - 1] -= 1;
+        //                     nums[j] += 1;
+        //                 }
+        //                 s[j - 1] = 'L';
+        //                 s[j] = 'R';
+
+        //                 j -= 1;
+        //             }
+        //         }
+        //     }
+
+        //     d -= 1;
+        // }
+
+        // long long result = 0;
+
+        // for(int i = 0; i < n - 1; i++)
+        // {
+        //     for(int j = i + 1; j < n; j++)
+        //     {
+        //         result += abs(nums[i] - nums[j]);
+        //     }
+        // }
+
+        // return result % (long long)(1e9 + 7);
+    }
+};
