@@ -1,0 +1,103 @@
+**********
+这题想到用哈希来快速查词，优先队列还是蛮简单的
+
+这道题值得学习的是关于字符查找这块的代码
+
+stringstream ss; //stream根据空格分词
+string w;
+int score = 0;
+ss << report[i];
+while (ss >> w) {
+    if (words.count(w)) {
+        score += words[w];
+    }
+}
+
+**********
+
+class Solution {
+public:
+    vector<int> topStudents(vector<string>& positive_feedback, vector<string>& negative_feedback, vector<string>& report, vector<int>& student_id, int k) {
+        priority_queue<pair<int, int>> p_q;
+        int n = report.size();
+
+        unordered_map<string, int> m1, m2;
+        for(string& p : positive_feedback)
+        {
+            m1[p] = 1;
+        }
+        for(string& n : negative_feedback)
+        {
+            m2[n] = 1;
+        }
+
+        for(int i = 0; i < n; i++)
+        {
+            int point = 0;
+            string r = report[i], cur = "";
+            for(int j = 0; j < r.size(); j++)
+            {
+                if(r[j] == ' ')
+                {
+                    if(m1.find(cur) != m1.end())
+                    {
+                        point += 3;
+                    }
+                    if(m2.find(cur) != m2.end())
+                    {
+                        point -= 1;
+                    }
+                    // if(find(positive_feedback.begin(), positive_feedback.end(), cur) != positive_feedback.end())
+                    // {
+                    //     point += 3;
+                    // }
+                    // if(find(negative_feedback.begin(), negative_feedback.end(), cur) != negative_feedback.end())
+                    // {
+                    //     point -= 1;
+                    // }
+
+                    cur = "";
+                }
+                else
+                {
+                    cur += r[j];
+                    if(j == r.size() - 1)
+                    {
+                        if(m1.find(cur) != m1.end())
+                        {
+                            point += 3;
+                        }
+                        if(m2.find(cur) != m2.end())
+                        {
+                            point -= 1;
+                        }
+                        // if(find(positive_feedback.begin(), positive_feedback.end(), cur) != positive_feedback.end())
+                        // {
+                        //     point += 3;
+                        // }
+                        // if(find(negative_feedback.begin(), negative_feedback.end(), cur) != negative_feedback.end())
+                        // {
+                        //     point -= 1;
+                        // }
+                    }
+                }
+            }
+
+            pair<int, int> temp = make_pair(point, -student_id[i]);
+            p_q.push(temp);
+        }
+
+        vector<int> result;
+
+        while(k > 0)
+        {
+            auto a = p_q.top();
+            result.push_back(-a.second);
+            p_q.pop();
+
+            k--;
+        }
+
+        return result;
+    }
+};
