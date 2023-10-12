@@ -1,0 +1,32 @@
+**********
+简单题 轻松拿下
+
+注意string转int stoi()函数 或者 atoi()函数(c_str()函数)
+    int转string to_string()函数
+**********
+
+class Solution {
+public:
+    long long findTheArrayConcVal(vector<int>& nums) {
+        int n = nums.size();
+        if(n == 1)
+            return nums[0];
+
+        int left = 0, right = n - 1;
+        long long result = 0;
+        while(left < right)
+        {
+            string a = to_string(nums[left]), b = to_string(nums[right]), c = a + b;
+
+            result = result + (long long)atoi(c.c_str());
+
+            left += 1;
+            right -= 1;
+        }
+
+        if(left == right)
+            result = result + nums[left];
+
+        return result;
+    }
+};
