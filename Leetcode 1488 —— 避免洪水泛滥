@@ -1,0 +1,98 @@
+**********
+这题卡了好久。
+主要弄清楚一点，当要清空一个水池时，应该选择坐标比最晚填满这个水池的大的里面最小的为0的天（太绕口了）
+**********
+
+class Solution {
+public:
+    vector<int> avoidFlood(vector<int>& rains) {
+        int n = rains.size();
+
+        vector<int> result(n, -1);
+        unordered_map<int, int> m;
+        //vector<int> index(n, 0);
+
+        priority_queue<int, vector<int>, greater<int>> pq;
+
+        int full = 0;
+
+        for(int i = 0; i < n; i++)
+        {
+            if(rains[i] > 0)
+            {
+                if(i != 0 && rains[i] == rains[i - 1])
+                    return {};
+                if(m.find(rains[i]) != m.end())
+                {
+                    if(full == m.size())
+                        return {};
+                    else
+                    {
+                        // for(int j = 0; j < n; j++)
+                        // {
+                        //     if(index[j] == 1 && j > m[rains[i]])
+                        //     {
+                        //         result[j] = rains[i];
+                        //         index[j] = 0;
+                        //         find = true;
+                        //         break;
+                        //     }
+                        // }
+
+                        queue<int> temp;
+                        while(pq.size() != 0 && pq.top() < m[rains[i]])
+                        {
+                            temp.push(pq.top());
+                            pq.pop();
+                        }
+
+                        if(pq.size() == 0)
+                            return {};
+
+                        result[pq.top()] = rains[i];
+                        pq.pop();
+                        
+                        while(!temp.empty())
+                        {
+                            pq.push(temp.front());
+                            temp.pop();
+                        }
+
+                        m[rains[i]] = i;
+                        full += 1;
+                    }
+                }
+                else
+                {
+                    m[rains[i]] = i;
+                    full += 1;
+                }
+                
+            }
+            else
+            {
+                full = max(0, full - 1);
+
+                //index[i] = 1;
+
+                pq.push(i);
+            }
+        }
+
+        // for(int j = 0; j < n; j++)
+        // {
+        //     if(index[j] == 1)
+        //     {
+        //         result[j] = 1;
+        //     }
+        // }
+
+        while(pq.size() > 0)
+        {
+            result[pq.top()] = 1;
+            pq.pop();
+        }
+
+        return result;
+    }
+};
