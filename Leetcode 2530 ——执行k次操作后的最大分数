@@ -1,0 +1,32 @@
+**********
+优先队列
+**********
+
+class Solution {
+public:
+    long long maxKelements(vector<int>& nums, int k) {
+        priority_queue<int> pq;
+
+        for(int& num : nums)
+        {
+            pq.emplace(num);
+        }
+
+        long long result = 0;
+        while(k > 0)
+        {
+            result += pq.top();
+            int temp = pq.top();
+            pq.pop();
+            if(temp % 3)
+                temp = temp / 3 + 1;
+            else
+                temp = temp / 3;
+            pq.emplace(temp);
+
+            k--;
+        }
+
+        return result;
+    }
+};
