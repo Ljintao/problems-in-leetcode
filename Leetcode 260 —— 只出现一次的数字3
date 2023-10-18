@@ -1,0 +1,29 @@
+**********
+能想到第一次对整个数组异或，得到两个数的异或结果，后面根据位为一来划分数组想不到
+
+注意数据范围
+**********
+
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        unsigned int s = 0;
+        for(int& num : nums)
+        {
+            s ^= num;
+        }
+
+        s = s & -s;
+
+        int a = 0, b = 0;
+        for(int& num : nums)
+        {
+            if(num & s)
+                a ^= num;
+            else
+                b ^= num;
+        }
+
+        return {a, b};
+    }
+};
