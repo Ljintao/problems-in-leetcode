@@ -1,0 +1,73 @@
+**********
+哈希表
+
+只想到时间复杂度为O(n * n)的方法，没想到答案的时间复杂度也是O(n * n)
+**********
+
+class Solution {
+public:
+    int tupleSameProduct(vector<int>& nums) {
+        int n = nums.size();
+        // if(n < 4)
+        //     return 0;
+        
+        //sort(nums.begin(), nums.end());
+
+        int result = 0;
+
+        unordered_map<int, int> m;
+
+        for(int i = 0; i < n - 1; i++)
+        {
+            for(int j = i + 1; j < n; j++)
+            {
+                int cur = nums[i] * nums[j];
+
+                if(m.find(cur) != m.end())
+                    m[cur] = m[cur] + 1;
+                else
+                    m[cur] = 1;
+            }
+        }
+
+        for(auto kv : m)
+        {
+            if(kv.second > 1)
+            {
+                result += (kv.second) * (kv.second - 1) / 2;
+            }
+        }
+
+        return result * 8;
+
+        // for(int i = 0; i < n - 2; i++)
+        // {
+        //     for(int j = n - 1; j >= i + 3; j--)
+        //     {
+        //         int left = i + 1, right = j - 1, mul = nums[i] * nums[j];
+
+        //         while(left < right)
+        //         {
+        //             int temp = nums[left] * nums[right];
+        //             if(temp < mul)
+        //             {
+        //                 left++;
+        //             }
+        //             else if(temp > mul)
+        //             {
+        //                 right--;
+        //             }
+        //             else
+        //             {
+        //                 result += 1;
+        //                 left++;
+        //                 right--;
+        //                 //break;
+        //             }
+        //         }
+        //     }
+        // }
+
+        // return result * 8;
+    }
+};
