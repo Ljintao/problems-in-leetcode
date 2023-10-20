@@ -1,0 +1,65 @@
+**********
+动态数组可以完成O(1)时间的随机下标返回
+哈希表可以完成完成O(1)时间插入和删除
+两者结合
+
+对于删除操作，利用尾部元素和想要的元素交换，删除尾部元素来实现在动态数组中O(1)删除
+
+随机数获取方法
+
+srand()生成随机数种子
+
+要取得 [a,b) 的随机整数，使用 (rand() % (b-a))+ a;
+
+要取得 [a,b] 的随机整数，使用 (rand() % (b-a+1))+ a;
+
+要取得 (a,b] 的随机整数，使用 (rand() % (b-a))+ a + 1; 
+**********
+
+class RandomizedSet {
+public:
+    RandomizedSet() {
+        srand(time(0));
+        cap = 0;
+    }
+    
+    bool insert(int val) {
+        if(m.find(val) == m.end())
+        {
+            m[val] = cap;
+            l.push_back(val);
+            cap += 1;
+            return true;
+        }
+
+        return false;
+    }
+    
+    bool remove(int val) {
+        if(m.find(val) != m.end())
+        {
+            int in = m[val];
+            m[l.back()] = in;
+            m.erase(val);
+            l[in] = l.back();
+            l[cap - 1] = val;
+            l.pop_back();
+            cap -= 1;
+
+            return true;
+        }
+
+        return false;
+    }
+    
+    int getRandom() {
+        
+        int index = rand() % cap;
+
+        return l[index];
+    }
+private:
+    int cap;
+    vector<int> l;
+    unordered_map<int, int> m;
+};
