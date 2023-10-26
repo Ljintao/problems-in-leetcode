@@ -1,0 +1,62 @@
+**********
+判断回文串一般用双指针
+
+注意递归的做法
+
+**********
+
+class Solution {
+public:
+    vector<vector<string>> partition(string s) {
+        int n = s.size();
+        vector<vector<string>> result;
+
+        string temp = s;
+        reverse(temp.begin(), temp.end());
+
+        if(temp == s)
+            result.push_back({s});
+
+        for(int i = 1; i < pow(2, n - 1); i++)
+        {
+            vector<string> sol;
+            int last = n;
+            bool con = true;
+            for(int j = 0; j < n - 1; j++)
+            {
+                if(i >> j & 1)
+                {
+                    string sub_s = s.substr(n - 1 - j, last - (n - 1 - j));
+                    string temp_sub_s = sub_s;
+                    reverse(temp_sub_s.begin(), temp_sub_s.end());
+                    if(temp_sub_s == sub_s)
+                    {
+                        sol.emplace_back(sub_s);
+                        last = n - 1 - j;
+                    }
+                    else
+                    {
+                        con = false;
+                        break;
+                    }
+                }
+            }
+            if(con)
+            {
+                string sub_s = s.substr(0, last);
+                string temp_sub_s = sub_s;
+                reverse(temp_sub_s.begin(), temp_sub_s.end());
+                if(temp_sub_s == sub_s)
+                {
+                    sol.emplace_back(sub_s);
+                    reverse(sol.begin(), sol.end());
+                    result.emplace_back(sol);
+                }
+            }
+        }
+
+        return result;
+
+        //时间复杂度O(n) = n * (2 ^ n);
+    }
+};
